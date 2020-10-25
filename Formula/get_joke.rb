@@ -4,7 +4,7 @@ class GetJoke < Formula
   version "0.1"
 
 
-  url "https://bitbucket.org/user/repo/get/HEAD.zip", :using => :curl
+  url "https://github.com/pdabrowski6/homebrew-get_joke/archive/main.zip", :using => :curl
 
   def install
     bin.install "get_joke/bin/get_joke"
