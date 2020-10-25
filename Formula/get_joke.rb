@@ -1,6 +1,7 @@
 class GetJoke < Formula
   desc "render a random joke"
   homepage "https://github.com/pdabrowski6/get_joke"
+  version "0.1"
 
 
   url "https://bitbucket.org/user/repo/get/HEAD.zip", :using => :curl
