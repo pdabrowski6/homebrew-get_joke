@@ -1,7 +1,7 @@
 class GetJoke < Formula
   desc "render a random joke about Chuck Norris"
-  homepage "https://github.com/pdabrowski6/get_joke"
-  version "0.1"
+  homepage "https://github.com/pdabrowski6/homebrew-get_joke"
+  version "0.2"
 
 
   url "https://github.com/pdabrowski6/homebrew-get_joke/archive/main.zip", :using => :curl
