@@ -1,5 +1,5 @@
 class GetJoke < Formula
-  desc "render a random joke"
+  desc "render a random joke about Chuck Norris"
   homepage "https://github.com/pdabrowski6/get_joke"
   version "0.1"
 

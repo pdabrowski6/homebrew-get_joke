@@ -4,24 +4,14 @@ require 'optparse'
 require 'net/http'
 require 'uri'
 require 'json'
+require 'rack'
 
 options = {}
 
 parser = OptionParser.new do |parser|
-  parser.on("-f", "--first-name FIRST_NAME",
-            "Replacement for Chuck's first name") do |first_name|
-    options[:first_name] = first_name
-  end
-
-  parser.on("-l", "--last-name LAST_NAME",
-            "Replacement for Chuck's last name") do |last_name|
-    options[:last_name] = last_name
-  end
-
-  parser.on("-r", "--random RANDOM_JOKES_COUNT",
-            "Render n random jokes") do |random_count|
-    options[:random] = random_count.to_i
-  end
+  parser.on("-f", "--first-name FIRST_NAME", "Replacement for Chuck's first name")
+  parser.on("-l", "--last-name LAST_NAME", "Replacement for Chuck's last name")
+  parser.on("-r", "--random RANDOM_JOKES_COUNT", "Render n random jokes")
 
   parser.on("-h", "--help", "Prints this help") do
     puts parser
@@ -29,19 +19,17 @@ parser = OptionParser.new do |parser|
   end
 end
 
-parser.parse!
+parser.parse!(into: options)
 
 base_url = "http://api.icndb.com/jokes/random"
 base_url += "/#{options.fetch(:random)}" if options.key?(:random)
-base_url += "?firstName=#{options.fetch(:first_name)}" if options.key?(:first_name)
-
-if options.key?(:first_name) && options.key?(:last_name)
-  base_url += "&lastName=#{options.fetch(:last_name)}"
-elsif options.key?(:last_name)
-  base_url += "?lastName=#{options.fetch(:last_name)}"
-end
-
 uri = URI(base_url)
+query = {
+  'firstName' => options[:'first-name'],
+  'lastName' => options[:'last-name']
+}.delete_if { |key, value| value.nil? }
+uri.query = Rack::Utils.build_query(query) unless query.empty?
+
 response = Net::HTTP.get_response(uri).body
 parsed_response = JSON.load(response)
 
